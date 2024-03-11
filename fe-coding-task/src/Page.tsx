@@ -9,7 +9,10 @@ import { TDataset, TFilter } from "./types";
 export default function Page() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [dataset, setDataSet] = useState<TDataset | null>();
-  const [filters, setFilters] = useState<TFilter>();
+  const [filters, setFilters] = useState<TFilter>({
+    houseType: searchParams.get("houseType") || "",
+    quartersRange: searchParams.get("quartersRange") || "",
+  });
 
   const fetchData = useCallback(async () => {
     const data = await fetchDataSet("00", [

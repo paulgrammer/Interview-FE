@@ -1,4 +1,5 @@
 import SaveSearchHistoryDialog from "./SaveSearchHistoryDialog";
+import { historyExists } from "../lib/searchHistory";
 import { useForm } from "react-hook-form";
 import { useCallback, useState } from "react";
 import TextField from "@mui/material/TextField";
@@ -8,7 +9,6 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import { TFilter } from "../types";
-import { historyExists } from "../lib/searchHistory";
 
 const propertyTypes = [
   {
@@ -54,6 +54,15 @@ export default function SearchBar({
     }
   }, []);
 
+  const validateQuartersRange = useCallback((value: string) => {
+    const [part1] = value.split("-");
+
+    // UI should limit users from providing quarter values earlier than 2009K1.
+    if (parseInt(part1) <= 2009) {
+      return "Quarters range should start after 2009K1.";
+    }
+  }, []);
+
   return (
     <>
       <Box
@@ -76,6 +85,7 @@ export default function SearchBar({
             required
             {...register("quartersRange", {
               required: { value: true, message: "Quarters Range is required!" },
+              validate: validateQuartersRange,
             })}
             error={Boolean(errors.quartersRange)}
             helperText={errors.quartersRange?.message}
