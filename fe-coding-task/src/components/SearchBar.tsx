@@ -28,7 +28,9 @@ const propertyTypes = [
 export default function SearchBar({
   onFilter,
   onSaveHistory,
+  defaultFilters,
 }: {
+  defaultFilters?: TFilter;
   onSaveHistory: () => void;
   onFilter: (filters: TFilter) => void;
 }) {
@@ -37,10 +39,7 @@ export default function SearchBar({
     handleSubmit,
     formState: { errors },
   } = useForm<TFilter>({
-    defaultValues: {
-      quartersRange: "2016K1-2021K4",
-      houseType: "02",
-    },
+    defaultValues: defaultFilters,
   });
 
   const [saveHistoryDialogOpen, openSaveHistoryDialog] = useState(false);
