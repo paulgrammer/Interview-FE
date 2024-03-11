@@ -5,6 +5,11 @@
 npm install
 ```
 
+### Test app
+```
+npm test
+```
+
 ### Build app
 ```
 npm run build
@@ -29,7 +34,7 @@ price per square meter fetched from https://data.ssb.no. Documentation is Norweg
 ## Requirements
 
 - A user has to be able to provide parameters like quarters range and house type in a simple form. These parameters have to be reflected in
-the URL so that users can share the URL with others. 
+the URL so that users can share the URL with others.
 - UI should limit users from providing quarter values earlier than 2009K1.
 - We want you to create a search history `on demand` in local storage. It means that after every search, you will ask the user if they want to save the search entry in the history.
 

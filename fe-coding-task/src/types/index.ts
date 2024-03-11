@@ -10,17 +10,7 @@ export type TDataset = {
   value: number[];
 };
 
-type TQueryItem = {
-  code: string;
-  selection: {
-    filter: string;
-    values: string[];
-  };
-};
-
-export type TQuery = {
-  query: TQueryItem[];
-  response: {
-    format: string;
-  };
+export type TFilter = {
+  quartersRange: string;
+  houseType: string;
 };

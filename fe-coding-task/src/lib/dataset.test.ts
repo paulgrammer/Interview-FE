@@ -3,7 +3,7 @@ import { fetchDataSet } from './dataset';
 
 describe('fetchDataSet', () => {
   test('fetches dataset', async () => {
-    const TidValues = [
+    const quartersRange = [
       "2020K1",
       "2020K2",
       "2020K3",
@@ -14,49 +14,21 @@ describe('fetchDataSet', () => {
       "2021K4",
     ];
 
-    const query = {
-      query: [
-        {
-          code: "Boligtype",
-          selection: {
-            filter: "item",
-            values: ["00"],
-          },
-        },
-        {
-          code: "ContentsCode",
-          selection: {
-            filter: "item",
-            values: ["KvPris"],
-          },
-        },
-        {
-          code: "Tid",
-          selection: {
-            filter: "item",
-            values: TidValues,
-          },
-        },
-      ],
-      response: {
-        format: "json-stat2",
-      },
-    }
-
-    const dataset = await fetchDataSet(query);
+    const houseType = "00";
+    const dataset = await fetchDataSet(houseType, quartersRange);
 
     // Dataset is not undefined
     expect(dataset).toBeDefined();
 
     // Validate Labels
     const labels = Object.keys(dataset.dimension.Tid.category.label);
-    const hasAllLabels = labels.every(label => TidValues.includes(label));
+    const hasAllLabels = labels.every(label => quartersRange.includes(label));
 
     // Expect to have all requested labels in query to be in the response (dataset)
     expect(hasAllLabels).toBeTruthy();
 
     // Validate Values
-    // Length of requested TidValues should be equal to that of dataset
-    expect(TidValues.length).toEqual(dataset.value.length);
+    // Length of requested quartersRange should be equal to that of dataset
+    expect(quartersRange.length).toEqual(dataset.value.length);
   });
 });
