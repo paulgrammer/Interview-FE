@@ -1,29 +1,15 @@
 import SaveSearchHistoryDialog from "./SaveSearchHistoryDialog";
 import { historyExists } from "../lib/searchHistory";
+import CardContent from "@mui/material/CardContent";
+import { propertyTypes } from "../lib/dataset";
 import { useForm } from "react-hook-form";
 import { useCallback, useState } from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import { TFilter } from "../types";
-
-const propertyTypes = [
-  {
-    value: "00",
-    label: "Boliger i alt",
-  },
-  {
-    value: "02",
-    label: "Småhus",
-  },
-  {
-    value: "03",
-    label: "Blokkleiligheter",
-  },
-];
+import Card from "@mui/material/Card";
 
 export default function SearchBar({
   onFilter,
@@ -63,27 +49,27 @@ export default function SearchBar({
   }, []);
 
   return (
-    <>
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "20ch" },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div>
-          <Typography variant="h4" gutterBottom>
-            Search
-          </Typography>
+    <Card variant="elevation" sx={{ marginBottom: 4}}>
+      <CardContent>
+        <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": { m: 1, width: "20ch" },
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <TextField
             sx={{ m: 1 }}
             label="Quarters Range"
             placeholder="2016K1-2021K4"
             required
             {...register("quartersRange", {
-              required: { value: true, message: "Quarters Range is required!" },
+              required: {
+                value: true,
+                message: "Quarters Range is required!",
+              },
               validate: validateQuartersRange,
             })}
             error={Boolean(errors.quartersRange)}
@@ -113,16 +99,14 @@ export default function SearchBar({
           >
             Search
           </Button>
-        </div>
+        </Box>
 
-        <Divider component="p" sx={{ marginBottom: 2 }} />
-      </Box>
-
-      <SaveSearchHistoryDialog
-        onSave={onSaveHistory}
-        open={saveHistoryDialogOpen}
-        onClose={() => openSaveHistoryDialog(false)}
-      />
-    </>
+        <SaveSearchHistoryDialog
+          onSave={onSaveHistory}
+          open={saveHistoryDialogOpen}
+          onClose={() => openSaveHistoryDialog(false)}
+        />
+      </CardContent>
+    </Card>
   );
 }

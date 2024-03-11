@@ -22,7 +22,7 @@ export const fetchDataSet = async (houseType: string, quartersRange: string) => 
   }
 };
 
-export const queryBuilder = (houseType: string, quartersRangeStr: string) => ({
+export const queryBuilder = (houseType: string, quartersRange: string) => ({
   query: [
     {
       code: "Boligtype",
@@ -42,7 +42,7 @@ export const queryBuilder = (houseType: string, quartersRangeStr: string) => ({
       code: "Tid",
       selection: {
         filter: "item",
-        values: transformQuartersRange(quartersRangeStr),
+        values: transformQuartersRange(quartersRange),
       },
     },
   ],
@@ -83,4 +83,49 @@ export const transformQuartersRange = (quartersRangeStr: string) => {
   }
 
   return [quartersRangeStr];
+}
+
+export const propertyTypes = [
+  {
+    value: "00",
+    label: "Boliger i alt",
+  },
+  {
+    value: "02",
+    label: "Småhus",
+  },
+  {
+    value: "03",
+    label: "Blokkleiligheter",
+  },
+];
+
+type TGroupByYear = {
+  data: number[];
+  label: string;
+}
+
+export const groupByYear = (dataset: TDataset) => {
+  const indexed = dataset.dimension.Tid.category.index;
+
+  const transformed = Object.keys(indexed).map((key) => ({
+    label: parseInt(key),
+    value: dataset.value[indexed[key]],
+  }));
+
+  const grouped = transformed.reduce((result, value) => {
+    const already = result.findIndex((r) => r.label === value.label.toString()) >= 0;
+
+    if (!already) {
+      const data = transformed
+        .filter((y) => y.label == value.label)
+        .map((y) => y.value);
+
+      result.push({ data, label: value.label.toString() });
+    }
+
+    return result;
+  }, [] as TGroupByYear[]);
+
+  return grouped
 }
