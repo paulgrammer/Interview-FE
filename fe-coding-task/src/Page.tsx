@@ -82,7 +82,7 @@ export default function Page() {
           inputProps={{ "aria-label": "Switch A" }}
           onChange={(e) => setDisplayByYear(e.target.checked)}
         />
-        <Typography>Display By Year</Typography>
+        <Typography>Group By Year</Typography>
       </Stack>
 
       <SearchBar
