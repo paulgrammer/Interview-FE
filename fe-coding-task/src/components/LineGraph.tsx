@@ -13,7 +13,7 @@ export default function LineGraph({
 }) {
   if (displayByYear) {
     return (
-      <Card variant="outlined">
+      <Card variant="elevation">
         <CardContent sx={{ height: "500px", width: "100%" }}>
           <LineChart
             series={groupByYear(dataset)}
